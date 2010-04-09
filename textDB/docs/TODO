@@ -1,0 +1,7 @@
+Todolist for the Php-Txt-Db-Api:
+************************************************************************
+
+- Reset the [TABLENAME-VALUE] in .autoinc file when deleting a table with name [TABLENAME].
+- Option in config file to hide the PHP5 E-STRICT DATE warnings from the errorlog.
+- Adding 'date' as new field type.
+- Adding CSV/XML/PDF Export functions

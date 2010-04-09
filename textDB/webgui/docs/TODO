@@ -1,0 +1,9 @@
+
+PHP TextDB webGUI todo-list(unsorted):
+
+DATE:  28/03/2007
+-----------------
+- Add language specific alerts from javascript
+- Fix minor bug(s) with value validation before submitting new rows/adding columns etc.
+- Option to import/export databases/tables.
+- Option to print database/table content in pdf file.

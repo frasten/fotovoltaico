@@ -1,0 +1,83 @@
+
+PHP TextDB webGUI Changelog:
+
+
+BUILD: 0.5.3 
+DATE:  14/02/2008
+-----------------
+NOTE: This version of webGUI and up uses a modded version of the php-txt-db-api: 0.3.3-Beta-01 by p.ACT!
+
+* Added new major changes to the layout of the menu page
+
+* Changed the SQL highlighting code in respect to function syntax and color.
+
+* Fixed bug where PHP throws an error when creating a new table with number of fields is smaller than 1.
+* Fixed bug where PHP throws an error when a table has only one field whose colDefaultValue is empty.
+
+
+BUILD: 0.5.2 
+DATE:  06/06/2007
+-----------------
+NOTE: This version of webGUI and up uses a modded version of the php-txt-db-api: 0.3.1-Beta-01 mod by p.ACT!
+
+* Added new support for foreign character sets in UTF-8 standard..
+
+* Fixed bug where string values with baltic characters were wrongly saved in database when using Table Editor.
+* Fixed bug where toggling lock chechbox causes backslashes around quotes in SQL WIndow.
+
+
+BUILD: 0.5.1 
+DATE:  28/03/2007
+-----------------
+NOTE: This version of webGUI and up uses a modded version of the php-txt-db-api: 0.3.1-Beta-01 mod by p.ACT!
+
+* Added new option for sql-queries in the SQL-Window screen; a checkbox to lock or to unlock queries from being  overwritten.
+* Added new Javascript to emulate select option disabled status for internet explorer browsers.
+* Added new value validation before submitting new rows/adding columns etc.
+* Added new 'add new column to table' option with position options (first/last/after).
+* Added new control check on AUTO_INC fields. AUTO_INC as option is only possible as first column in table.
+
+* Fixed bug where default value 'NULL'for integers resulted in none numeric value.
+* Fixed bug where adding new table with zero fields calls an an php error. Minimum fields is now set to one.
+
+
+BUILD: 0.5.0 
+DATE:  07/03/2007
+-----------------
+NOTE: This version of webGUI and up uses a modded version of the php-txt-db-api: 0.3.1-Beta-01 mod by p.ACT!
+
+* Added new word wrap icon on table_view page to toggle word wrap on / off on SELECT results.
+* Added new Javascript to maintain contact with main page from SQL window even after main page is refreshed or changed.
+* Added new Javascript word wrap function to the SQL Query window. Works only for IE/Windows at the moment.
+* Added new SQL Query window with Javascript load db,table and keeps focus.
+* Added new designed favicon shortcut icon and logo image.
+* Added new SQL Syntax Highlighting script for the Query result notification. 
+* Added new Javascript hover script as a workaround for an internet explorer bug where hover effect on tr/rd elements is not allowed. 
+* Added new language files; German, Dutch, English.
+* Added new language detect automation.
+* Added new option to select default language into session variable
+* Added new option to edit or delete table columns
+* Added new major changes to the layout of the create table form
+* Added new major changes to the layout of the menu page
+* Added new major changes to the layout of the welcoming page
+* Added new server details page which shows a list of available databases on the host
+
+* Fixed bug where SQL window looses focus.
+* Fixed bug where clicking on the SQL icon/link opens a secondary SQL Query window.
+* Fixed bug where default values were not written to a new row when input value was empty. 
+* Fixed bug where POST data to remained set after a submit.
+
+* Removed minimal txt-db-api version checks and therefore also removed backwards compatibility.
+* Changed tbedit script to fit into the new template set.
+* Complete makeover of all pages and added a new default template set.
+
+
+BUILD: 0.40a 
+DATE:  01/09/2004
+-----------------
+
+Last release by Gobo (iq.gobo@gmx.net) who initiated the webGUI project.
+Unfortunatly there is no changelog reference found up to this version.
+
+[CVS: http://flatfiledb.cvs.sourceforge.net/flatfiledb/txtdbapi/webgui]
+

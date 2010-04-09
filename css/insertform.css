@@ -1,0 +1,118 @@
+fieldset {
+	float: left;
+	clear: left;
+	width: 510px;
+	margin: 0 0 1.5em 0;
+	padding: 0;
+	border: 1px solid #bbb;
+	background-color: #F2EFE9;
+	/*background-image: url(images/fieldset_gradient.jpg);
+	background-repeat: repeat-x;*/
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+}
+
+legend {
+	margin-left: 1em;
+	color: #000;
+	font-weight: bold;
+}
+
+fieldset ol {
+	padding: 1em 1em 0 1em;
+	list-style: none;
+	float: left;
+}
+
+fieldset li {
+	float: left;
+	clear: left;
+	width: 100%;
+	padding-bottom: 1em;
+}
+
+label {
+	float: left;
+	width: 7em;
+	margin-right: 1em;
+	text-align: right;
+}
+
+fieldset input[type="text"] {
+	border: 1px solid #bbb;
+	-moz-box-shadow:1px 1px 3px #aaa;
+	-webkit-box-shadow: 1px 1px 3px #aaa;
+	width: 70px;
+}
+
+fieldset input:focus {
+	border: 1px solid #2779AA;
+}
+
+#divtempo {
+	float: left;
+	margin-left: 30px;
+}
+
+#divtempo ol {
+	margin: 0;
+	padding: 0;
+}
+
+#divtempo label {
+	margin: 0;
+	float: none;
+	display: block;
+	width: auto;
+	text-align: center;
+}
+
+#divtempo li {
+	padding: 0;
+	width: 36px;
+	text-align: center;
+	clear: none;
+	margin-left: 5px;
+	background-color: #ddd;
+	border: 1px solid #ccc;
+}
+
+fieldset.submit {
+	float: none;
+	width: auto;
+	border: 0 none #FFF;
+	padding-left: 12em;
+	background-color: transparent;
+	background-image: none;
+}
+
+fieldset.submit input {
+	padding-right: 20px;
+	padding-left: 20px;
+}
+
+.divData {
+	font-size: 120%;
+	margin-left: 120px;
+}
+
+.divData label {
+	margin-top: 7px;
+}
+
+.divData input[type="text"] {
+	font-size: 20px;
+	border: 1px solid #2779AA;
+	background-color: #eef;
+}
+
+fieldset h4, fieldset legend {
+	font-size: 13px;
+	text-shadow: 1px 1px 1px #aaa;
+}
+
+.tempoSelezionato {
+	background-color: #adf !important;
+	border-color: #2779AA !important;
+}

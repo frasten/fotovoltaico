@@ -1,0 +1,25 @@
+$headinclude
+$gui_message2
+
+<p style="text-align: center"><a href="index.php?show=table_view&amp;db=$_GET[db]&amp;tbl=$_GET[tbl]&amp;$SID">Mostra</a>
+
+<table bgcolor="{tablebordercolor}" cellpadding=3 style="margin: 0 auto;" summary="contenuto della tabella">
+	<tr><td bgcolor="{tablec}">Campo</td><td bgcolor="{tablec}">Tipo</td><td colspan=2 align="center" bgcolor="{tablec}">opzioni</td></tr>
+	$tbl_list_fields
+</table>
+<hr>
+
+<form method="post" action="index.php?show=sql_execute&amp;db=$_GET[db]&amp;tbl=$_GET[tbl]&amp;$SID">
+<ul>
+	<li><label for="sql">Esegui comando SQL sul database "$_GET[db]"</label><br>
+		<input type="hidden" name="referto" value="table_details.php">
+		<textarea id="sql" name="sql" rows=7 cols=40>$_POST[sql]</textarea><br>
+		<input type="checkbox" id="reprint" name="reprint" value="true"><label for="reprint">Mostra nuovamente il comando SQL</label><br>
+		<input type="submit" value="esegui">
+	</li>
+	<li><a href="index.php?show=table_insert&amp;db=$_GET[db]&amp;tbl=$_GET[tbl]&amp;$SID">Inserisci nuova riga</a></li>
+	<li><a href="index.php?show=table_delete&amp;db=$_GET[db]&amp;tbl=$_GET[tbl]&amp;$SID">Cancella tabella "$_GET[tbl]"</a></li>
+</ul>
+</form>
+
+$footinclude

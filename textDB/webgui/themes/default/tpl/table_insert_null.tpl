@@ -1,0 +1,1 @@
+<input type="checkbox" name="$fielddefault" onClick="nullControl('$coltype','$fielddefault','$fieldvalue');" value="NULL" $fnull_checked>&nbsp;NULL

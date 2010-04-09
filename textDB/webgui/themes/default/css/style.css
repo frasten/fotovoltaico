@@ -1,0 +1,176 @@
+body, p, td, tr, table, input, textarea, select {
+	font-family:       Arial, Helvetica, sans-serif;
+	font-size:         11px;
+}
+
+body, p {
+	padding:           0;
+	margin:            2px;
+}
+
+a:link, a:visited { 
+	color:             #0000ff;
+	text-decoration:   none;
+}
+
+a:active {
+	color:             #ff0000;
+	text-decoration:   none;
+}
+
+a:hover {
+	color:             #ff0000;
+	text-decoration:   underline;
+}
+
+a img,
+h2 img {
+	vertical-align:    middle;
+	border:            0;
+}
+
+h1 {
+	font-family:       Arial, Helvetica, sans-serif;
+	font-size:         18px;
+	margin-top:        10px;
+	margin-bottom:     10px;
+}
+
+h2 {
+	font-family:       Arial, Helvetica, sans-serif;
+	font-size:         14px;
+	margin-top:        10px;
+	margin-bottom:     20px;
+}
+
+h2 a:active,
+h2 a:hover {
+	color:             #ff0000;
+	text-decoration:   none;
+}
+
+td {
+	padding:           6px;
+}
+
+img {
+	padding:           0px;
+	margin:            0px;
+}
+
+table tr.row:hover,
+table tr.row.hover,
+.row span:hover,
+.row span.hover {
+	background-color:  #CCFFCC;
+}
+
+ul {
+	list-style-type:    circle;
+	margin-top:         10px;
+	margin-bottom:      10px;
+	vertical-align:     middle;
+}
+
+ul.tpl {
+	list-style-image:   url(../img/b_tpl.png);
+}
+
+.dbs {
+	/*list-style-image:   url(../img/b_sdb.png);*/
+	margin: 0 5px 0 10px;
+}
+
+.disabled {
+	background-color:   #CCCCCC;
+	color:              #999999;
+}
+
+.hrclass_navi {
+	color:              #5081AF;
+	background-color:   #5081AF;
+	border:             0;
+	height:             1px;
+}
+
+.hrclass_main {
+	color:              #999999;
+	background-color:   #999999;
+	border:             0;
+	height:             1px;
+}
+
+.icon {
+	vertical-align:     middle;
+	margin-right:       0;
+	margin-left:        0;
+}
+
+.result, .result p {
+	font-size:          11px;
+}
+
+.sqltext {
+	font-family:        "Courier New", Courier, mono;
+	font-size:          11px;
+	width:              465px;
+	height:             150px;
+}
+
+/* MAIN MENU LINKS */
+
+div#mainlinks {
+	font-family:        Arial, Helvetica, sans-serif;
+	font-size:          12px;
+	text-align:         center;
+	margin-top:         0.2em;
+	margin-bottom:      0.2em;
+	padding-top:        0.2em;
+	padding-bottom:     0.2em;
+}
+
+div#mainlinks .icon {
+	padding:            1px;
+	margin:             0;
+}
+
+div#mainlinks a {
+	margin:             0.2em;
+	padding:            0.2em;
+	border:             0.05em solid #5081AF; 
+}
+
+div#mainlinks a:hover {
+	background-color:   #5081AF;
+}
+
+/* SQL SYNTAX HIGHLIGHTING STYLES */
+
+code.sql {
+	background:         #DDDDDD;
+	color:              #000000;
+}
+
+code.sql .keyword {
+	color:              #990099;
+}
+
+code.sql .function {
+	color:              #FF0000;
+}
+
+code.sql .operator {
+	color:              #FF00FF;
+}
+
+code.sql .quoted {
+	color:              #008000;
+}
+
+code.sql .ticked {
+	color:              #000080;
+}
+
+code.sql .bracket {
+	color:              #FF00FF;
+}
