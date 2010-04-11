@@ -1,1 +1,0 @@
-<option value="$lang_file" $selected>$lang_desc</option>
