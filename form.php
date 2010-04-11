@@ -13,11 +13,13 @@ require_once('inc/header.inc.php');
 <script type="text/javascript">
 $(function() {
 	$("#data").datepicker($.datepicker.regional['it']);
-	
+
 	$("#divtempo input[type=radio]").change(function(){
 		$(this).parent().parent().find(".tempoSelezionato").removeClass("tempoSelezionato");
 		$(this).parent().addClass("tempoSelezionato");
 	})
+
+	$("input[type='text']").attr("autocomplete", "off");
 });
 </script>
 <form action='salvaform.php' method='post'>
