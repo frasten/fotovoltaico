@@ -43,10 +43,11 @@ jQuery("#lista").jqGrid({
 }).navGrid('#pager',{
 	edit:true,
 	add:false,
-	del:false,
+	del:true,
 	search:true,
 	searchtext:"Cerca",
 	refreshtext:"Aggiorna",
+	deltext:"Elimina",
 	edittext:"Modifica"
 });
 </script>

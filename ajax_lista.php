@@ -22,15 +22,18 @@ $oper = $_POST['oper'];
 require_once('inc/db.inc.php');
 if (!$db) die();
 
-if ($oper == 'edit'):
-/***************** EDIT ************************/
+if ($oper == 'edit' || $oper == 'del'):
 $id = intval($_POST['id']);
 if (!$id) die("Non fregarmi.");
 
 $query = "SELECT id FROM ". TBL_DATI . " WHERE id='$id' LIMIT 1";
 $result = $db->executeQuery($query);
 if (!$result || !$result->getRowCount()) die("ID non valido.");
+endif;
 
+
+if ($oper == 'edit'):
+/***************** EDIT ************************/
 pulisci_post_numeri(array(
 'prod_inverter',
 'produzione',
@@ -56,6 +59,16 @@ echo $query = "UPDATE " . TBL_DATI . " SET ".
 	"prelievo_f2='{$_POST[prelievo_f2]}', prelievo_f3='{$_POST[prelievo_f3]}', " .
 	"tempo='{$_POST[tempo]}' " .
 	" WHERE id='$id'";
+$ok = $db->executeQuery($query);
+if (!$ok) die("Errore nel salvataggio.");
+
+// Tutto ok.
+echo 0;
+
+elseif ($oper == 'del'):
+/****************** DELETE *********************/
+$query = "DELETE FROM " . TBL_DATI . " WHERE id = '$id'";
+
 $ok = $db->executeQuery($query);
 if (!$ok) die("Errore nel salvataggio.");
 
