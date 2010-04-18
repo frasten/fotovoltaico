@@ -113,15 +113,9 @@ funzioneMouseOver = function (event, pos, item) {
 
 $(function () {
 	var d1 = <?php echo json_encode($dati_prod_giornaliera); ?>;
-	var d2 = <?php echo json_encode($dati_prelievo_f1); ?>;
-	var d3 = <?php echo json_encode($dati_prelievo_f2); ?>;
-	var d4 = <?php echo json_encode($dati_prelievo_f3); ?>;
-	//var d5 = <?php echo json_encode($media); ?>;
 
 	$.plot($("#placeholder"), [
-		{label: 'Produzione Inverter giornaliera', data: d1},
-		{label: 'Prelievo F2', data: d3},
-		{label: 'Prelievo F3', data: d4}/*,
+		{label: 'Produzione Inverter giornaliera', data: d1}/*,
 		{label: 'Prelievo F3', data: d5, points: { show: false }}*/
 	], {
 		series: {
