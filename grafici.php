@@ -17,10 +17,30 @@ if (function_exists('date_default_timezone_set'))
 /* produzione precedente, utilizzata per calcolare la prod. giornaliera */
 $prod_prec = 0;
 $giorno_prec = 0; // giorno precedente
+$mese_prec = 0;
+$tot_mesi = array();
+$ultimo_mese_scorso = 0;
 while ($result->next()) {
 	$riga = $result->getCurrentValuesAsHash();
 	$amg = explode('-', $riga[data]);
 	$time_giorno = mktime(0, 0, 0, $amg[1], $amg[2], $amg[0]);
+	
+	// mese: tot_mesi[ANNO][mese]
+	/*
+	 * Questo valore viene sovrascritto ad ogni giorno, con il valore
+	 * letto sul contatore.
+	 * Di conseguenza al cambio di mese il valore che rimane nel mese
+	 * precedente sara' l'ultimo del mese.
+	 */
+	if ($mese_prec != $amg[1]) {
+		// Cambio del mese
+		if ($mese_prec != 0)
+			$ultimo_mese_scorso = $ultima_lettura;
+		$mese_prec = $amg[1];
+	}
+	$ultima_lettura = $riga[prod_inverter];
+	$tot_mesi[$amg[0]][$amg[1]] = $ultima_lettura - $ultimo_mese_scorso;
+
 	$delta_giorni = (int) ($time_giorno - $giorno_prec) / (int) (3600 * 24);
 	if ($giorno_prec == 0) $delta_giorni = 1;
 	$timestamp = $time_giorno * 1000;
@@ -32,6 +52,7 @@ while ($result->next()) {
 	$prod_prec = $riga[prod_inverter];
 	$giorno_prec = $time_giorno;
 }
+
 
 /*
 $scalatura = 24; // 1 giorno
