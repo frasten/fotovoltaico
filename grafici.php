@@ -6,24 +6,31 @@ $JS[] = 'js/flot/jquery.flot.min.js';
 require_once('inc/header.inc.php');
 
 
-$query = "SELECT * FROM " . TBL_DATI;
+$query = "SELECT * FROM " . TBL_DATI . " ORDER BY data ASC";
 $result = $db->executeQuery($query);
 $dati_prod_inverter = array();
-$dati_prelievo_f1 = array();
-$dati_prelievo_f2 = array();
-$dati_prelievo_f3 = array();
-$i = 0;
+$dati_prod_giornaliera = array();
+
 if (function_exists('date_default_timezone_set'))
 	date_default_timezone_set('UTC');
+
+/* produzione precedente, utilizzata per calcolare la prod. giornaliera */
+$prod_prec = 0;
+$giorno_prec = 0; // giorno precedente
 while ($result->next()) {
 	$riga = $result->getCurrentValuesAsHash();
 	$amg = explode('-', $riga[data]);
-	$timestamp = mktime(0, 0, 0, $amg[1], $amg[2], $amg[0]) * 1000;
+	$time_giorno = mktime(0, 0, 0, $amg[1], $amg[2], $amg[0]);
+	$delta_giorni = (int) ($time_giorno - $giorno_prec) / (int) (3600 * 24);
+	if ($giorno_prec == 0) $delta_giorni = 1;
+	$timestamp = $time_giorno * 1000;
+	$prod_oggi = $riga[prod_inverter] - $prod_prec;
+	$prod_oggi /= $delta_giorni;
+
 	$dati_prod_inverter[] = array($timestamp, $riga[prod_inverter]);
-	$dati_prelievo_f1[] = array($timestamp, $riga[prelievo_f1]);
-	$dati_prelievo_f2[] = array($timestamp, $riga[prelievo_f2]);
-	$dati_prelievo_f3[] = array($timestamp, $riga[prelievo_f3]);
-	$i++;
+	$dati_prod_giornaliera[] = array($timestamp, $prod_oggi);
+	$prod_prec = $riga[prod_inverter];
+	$giorno_prec = $time_giorno;
 }
 
 /*
@@ -55,6 +62,8 @@ foreach ($arr_media as $k => $v) {
 /* moltiplico un sinc traslato , ampiezza = valore
  * poi sommo tutto.
  * 
+ * Lista di grafici:
+ * produzione giornaliera
  * */
 
 
@@ -103,14 +112,14 @@ funzioneMouseOver = function (event, pos, item) {
 
 
 $(function () {
-	var d1 = <?php echo json_encode($dati_prod_inverter); ?>;
+	var d1 = <?php echo json_encode($dati_prod_giornaliera); ?>;
 	var d2 = <?php echo json_encode($dati_prelievo_f1); ?>;
 	var d3 = <?php echo json_encode($dati_prelievo_f2); ?>;
 	var d4 = <?php echo json_encode($dati_prelievo_f3); ?>;
 	//var d5 = <?php echo json_encode($media); ?>;
 
 	$.plot($("#placeholder"), [
-		{label: 'Prelievo F1', data: d2},
+		{label: 'Produzione Inverter giornaliera', data: d1},
 		{label: 'Prelievo F2', data: d3},
 		{label: 'Prelievo F3', data: d4}/*,
 		{label: 'Prelievo F3', data: d5, points: { show: false }}*/
