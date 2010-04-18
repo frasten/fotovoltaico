@@ -13,7 +13,7 @@ require_once('inc/header.inc.php');
 <script type="text/javascript">
 $(function() {
 	$("#data").datepicker($.datepicker.regional['it']);
-	
+
 	$("#divtempo input[type=radio]").change(function(){
 		$(this).parent().parent().find(".tempoSelezionato").removeClass("tempoSelezionato");
 		$(this).parent().addClass("tempoSelezionato");
@@ -22,6 +22,8 @@ $(function() {
 	jQuery("td").filter(function(){return this.innerHTML == 'F1'}).addClass("fascia1")
 	jQuery("td").filter(function(){return this.innerHTML == 'F2'}).addClass("fascia2")
 	jQuery("td").filter(function(){return this.innerHTML == 'F3'}).addClass("fascia3")
+
+	$("input[type='text']").attr("autocomplete", "off");
 });
 </script>
 <form action='salvaform.php' method='post'>
