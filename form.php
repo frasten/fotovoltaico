@@ -18,6 +18,10 @@ $(function() {
 		$(this).parent().parent().find(".tempoSelezionato").removeClass("tempoSelezionato");
 		$(this).parent().addClass("tempoSelezionato");
 	})
+
+	jQuery("td").filter(function(){return this.innerHTML == 'F1'}).addClass("fascia1")
+	jQuery("td").filter(function(){return this.innerHTML == 'F2'}).addClass("fascia2")
+	jQuery("td").filter(function(){return this.innerHTML == 'F3'}).addClass("fascia3")
 });
 </script>
 <form action='salvaform.php' method='post'>
@@ -93,6 +97,36 @@ $(function() {
 			<input type='text' id='prelievo_f3' name='prelievo_f3' value='' />
 		</li>
 	</ol>
+	<table>
+		<thead>
+		<tr>
+			<td>Giorno</td><td>0-7</td><td>7-8</td><td>8-19</td><td>19-23</td><td>23-24</td>
+		</tr>
+		</thead>
+		<tbody>
+		<tr>
+			<td>Lun</td><td>F3</td><td>F2</td><td>F1</td><td>F2</td><td>F3</td>
+		</tr>
+		<tr>
+			<td>Mar</td><td>F3</td><td>F2</td><td>F1</td><td>F2</td><td>F3</td>
+		</tr>
+		<tr>
+			<td>Mer</td><td>F3</td><td>F2</td><td>F1</td><td>F2</td><td>F3</td>
+		</tr>
+		<tr>
+			<td>Gio</td><td>F3</td><td>F2</td><td>F1</td><td>F2</td><td>F3</td>
+		</tr>
+		<tr>
+			<td>Ven</td><td>F3</td><td>F2</td><td>F1</td><td>F2</td><td>F3</td>
+		</tr>
+		<tr>
+			<td>Sab</td><td>F3</td><td>F2</td><td>F2</td><td>F2</td><td>F3</td>
+		</tr>
+		<tr>
+			<td>Dom</td><td>F3</td><td>F3</td><td>F3</td><td>F3</td><td>F3</td>
+		</tr>
+		</tbody>
+	</table>
 </fieldset>
 
 <fieldset class="submit">

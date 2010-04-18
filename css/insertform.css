@@ -116,3 +116,32 @@ fieldset h4, fieldset legend {
 	background-color: #adf !important;
 	border-color: #2779AA !important;
 }
+
+.fascia1 {
+	background-color: black;
+	color: white;
+}
+
+.fascia2 {
+	background-color: yellow;
+}
+
+.fascia3 {
+	background-color: #ddf;
+}
+
+table {
+	float: left;
+	margin-left: 30px;
+	border-collapse: collapse;
+	margin-bottom: 5px;
+}
+
+td {
+	border: 1px solid #bbb;
+	padding: 1px 3px;
+}
+
+thead td {
+	font-weight: bold;
+}
