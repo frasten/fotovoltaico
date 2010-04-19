@@ -118,16 +118,16 @@ fieldset h4, fieldset legend {
 }
 
 .fascia1 {
-	background-color: black;
-	color: white;
+	background-color: #f8d;
+	color: #900;
 }
 
 .fascia2 {
-	background-color: yellow;
+	background-color: #fe5;
 }
 
 .fascia3 {
-	background-color: #ddf;
+	background-color: #aef;
 }
 
 table {
@@ -140,6 +140,8 @@ table {
 td {
 	border: 1px solid #bbb;
 	padding: 1px 3px;
+	min-width: 29px;
+	text-align: center;
 }
 
 thead td {
