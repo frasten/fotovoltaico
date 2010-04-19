@@ -54,6 +54,16 @@ while ($result->next()) {
 }
 
 
+$dati_mesi = array();
+foreach ($tot_mesi as $anno => $arr_mesi) {
+	foreach ($arr_mesi as $mese => $val) {
+		$timestamp = mktime(0, 0, 0, $mese, 1, $anno) * 1000;
+		$dati_mesi[] = array($timestamp, $val);
+	}
+}
+
+var_dump($dati_mesi);
+
 /*
 $scalatura = 24; // 1 giorno
 $step = 1;
@@ -90,6 +100,7 @@ foreach ($arr_media as $k => $v) {
 
 ?>
 <div id="placeholder" class="grafico"></div>
+<div id="grafico_mesi" class="grafico"></div>
 <script type="text/javascript">
 mesiIta = ["Gen", "Feb", "Mar", "Apr", "Mag", "Giu", "Lug", "Ago", "Set", "Ott", "Nov", "Dic"];
 
@@ -134,6 +145,7 @@ funzioneMouseOver = function (event, pos, item) {
 
 $(function () {
 	var d1 = <?php echo json_encode($dati_prod_giornaliera); ?>;
+	var d2 = <?php echo json_encode($dati_mesi); ?>;
 
 	$.plot($("#placeholder"), [
 		{label: 'Produzione Inverter giornaliera', data: d1}/*,
@@ -141,8 +153,7 @@ $(function () {
 	], {
 		series: {
 			lines: {show: true/*, fill: true*/},
-			points: {show: true},
-			colors: ["#edc240", "#ff009c", "#4da74d", "#aaa"]
+			points: {show: true}
 		},
 		grid: {
             backgroundColor: { colors: ["#ddf", "#fff"] },
@@ -155,15 +166,46 @@ $(function () {
 			/*,
 			min: (new Date("1990/01/01")).getTime(),
 			max: (new Date("2000/01/01")).getTime()*/
-		}
-
+		},
+		colors: ["#edc240", "#ff009c", "#4da74d", "#aaa"]
 	});
 
 	// Roba per l'hover
 	$("#placeholder").bind("plothover", funzioneMouseOver);
 
+	/********************************
+	          GRAFICO MESI
+	*********************************/
+	// TODO: capire come si mettono dei valori custom sull'asse delle X
+	$.plot($("#grafico_mesi"), [
+		{label: 'Produzione Inverter mensile', data: d2}/*,
+		{label: 'Prelievo F3', data: d5, points: { show: false }}*/
+	], {
+		series: {
+			lines: { show: false, steps: false },
+			bars: { show: true, barWidth: 15 * 24 * 60 * 60 * 1000, align: "center" }
+		},
+		grid: {
+            backgroundColor: { colors: ["#ddf", "#fff"] },
+            hoverable: true
+        },
+        xaxis: {
+			tickFormatter: function (val, axis) {
+				var d = new Date(val);
+				return mesiIta[d.getUTCMonth()] + " "  + d.getFullYear();
+			},
+			mode: "time",
+			minTickSize: [1, "month"]
+//			monthNames: mesiIta
+			/*,
+			min: (new Date("1990/01/01")).getTime(),
+			max: (new Date("2000/01/01")).getTime()*/
+		},
+		colors: ["#79f", "#aaa"]
+	});
 
-
+	// Roba per l'hover
+	$("#grafico_mesi").bind("plothover", funzioneMouseOver);
 });
 </script>
 
