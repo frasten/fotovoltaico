@@ -62,7 +62,6 @@ foreach ($tot_mesi as $anno => $arr_mesi) {
 	}
 }
 
-var_dump($dati_mesi);
 
 /*
 $scalatura = 24; // 1 giorno
