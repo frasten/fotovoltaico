@@ -175,10 +175,8 @@ $(function () {
 	/********************************
 	          GRAFICO MESI
 	*********************************/
-	// TODO: capire come si mettono dei valori custom sull'asse delle X
 	$.plot($("#grafico_mesi"), [
-		{label: 'Produzione Inverter mensile', data: d2}/*,
-		{label: 'Prelievo F3', data: d5, points: { show: false }}*/
+		{label: 'Produzione Inverter mensile', data: d2}
 	], {
 		series: {
 			lines: { show: false, steps: false },
@@ -195,12 +193,8 @@ $(function () {
 			},
 			mode: "time",
 			minTickSize: [1, "month"]
-//			monthNames: mesiIta
-			/*,
-			min: (new Date("1990/01/01")).getTime(),
-			max: (new Date("2000/01/01")).getTime()*/
 		},
-		colors: ["#79f", "#aaa"]
+		colors: ["#79f"]
 	});
 
 	// Roba per l'hover
