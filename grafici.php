@@ -168,7 +168,7 @@ $(function () {
 			min: d1[0][0] - (24*60*60*1000), // Un giorno meno del primo giorno
 			max: d1[d1.length - 1][0] + (24*60*60*1000)
 		},
-		colors: ["#94ff8f", "#edc240", "#ff009c", "#4da74d", "#aaa"]
+		colors: ["#A1C4FF", "#EDA840", "#ff009c", "#4da74d", "#aaa"]
 	});
 
 	// Roba per l'hover
