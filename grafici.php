@@ -2,6 +2,7 @@
 
 $JS[] = 'js/jquery.js';
 $JS[] = 'js/flot/jquery.flot.min.js';
+$HEADER[] = '<!--[if IE]><script language="javascript" type="text/javascript" src="js/flot/excanvas.min.js"></script><![endif]-->';
 
 require_once('inc/header.inc.php');
 
