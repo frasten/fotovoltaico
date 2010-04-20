@@ -63,16 +63,18 @@ foreach ($tot_mesi as $anno => $arr_mesi) {
 }
 
 
-/*
-$scalatura = 24; // 1 giorno
+////// ANDAMENTO MEDIO
+$mollosita = 5;
+$scalatura = 24 * $mollosita; // 1 giorno
 $step = 1;
 $delta = 6*$scalatura; // limite sopra e sotto la traslazione
 $PI = 3.1415;
 $arr_media = array();
-for ($i = 0; $i < sizeof($dati_prelievo_f1); $i++) {
-	$ampiezza = $dati_prelievo_f1[$i][1];
+for ($i = 0; $i < sizeof($dati_prod_giornaliera); $i++) {
+	$ampiezza = $dati_prod_giornaliera[$i][1];
+	$ampiezza /= $mollosita;
 	// Divido altrimenti va in overflow e non gli piacciono key grandi
-	$traslazione = $dati_prelievo_f1[$i][0]/(60*60*1000);
+	$traslazione = $dati_prod_giornaliera[$i][0]/(60*60*1000);
 	for ($t = $traslazione - $delta; $t <= $traslazione + $delta; $t += $step) {
 		if ($t == $traslazione)
 			$sinc = $ampiezza;
@@ -86,7 +88,7 @@ $media = array();
 foreach ($arr_media as $k => $v) {
 	$media[] = array($k*1000*60*60, $v);
 }
-*/
+
 
 
 /* moltiplico un sinc traslato , ampiezza = valore
@@ -145,10 +147,11 @@ funzioneMouseOver = function (event, pos, item) {
 $(function () {
 	var d1 = <?php echo json_encode($dati_prod_giornaliera); ?>;
 	var d2 = <?php echo json_encode($dati_mesi); ?>;
+	var media1 = <?php echo json_encode($media); ?>;
 
 	$.plot($("#placeholder"), [
-		{label: 'Produzione Inverter giornaliera', data: d1}/*,
-		{label: 'Prelievo F3', data: d5, points: { show: false }}*/
+		{label: 'Produzione Inverter giornaliera', data: d1},
+		{label: 'Andamento medio', data: media1, points: { show: false }, hoverable: false}
 	], {
 		series: {
 			lines: {show: true/*, fill: true*/},
@@ -161,12 +164,11 @@ $(function () {
         xaxis: {
 			mode: "time",
 			minTickSize: [1, "day"],
-			monthNames: mesiIta
-			/*,
-			min: (new Date("1990/01/01")).getTime(),
-			max: (new Date("2000/01/01")).getTime()*/
+			monthNames: mesiIta,
+			min: d1[0][0] - (24*60*60*1000), // Un giorno meno del primo giorno
+			max: d1[d1.length - 1][0] + (24*60*60*1000)
 		},
-		colors: ["#edc240", "#ff009c", "#4da74d", "#aaa"]
+		colors: ["#edc240", "#94FF8F", "#ff009c", "#4da74d", "#aaa"]
 	});
 
 	// Roba per l'hover
