@@ -65,22 +65,37 @@ foreach ($tot_mesi as $anno => $arr_mesi) {
 
 
 ////// ANDAMENTO MEDIO
-$mollosita = 5;
+$mollosita = 5; // N.B: intero
 $scalatura = 24 * $mollosita; // 1 giorno
-$step = 1;
-$delta = 6*$scalatura; // limite sopra e sotto la traslazione
-$PI = 3.1415;
+$step = 1; // In ore, e' la definizione.
+$delta = 6 * $scalatura; // E' il semisupporto del sinc, piu' e' grande piu' sara' accurato.
 $arr_media = array();
-for ($i = 0; $i < sizeof($dati_prod_giornaliera); $i++) {
-	$ampiezza = $dati_prod_giornaliera[$i][1];
+/* Aggiungo tot campioni a sinistra e a destra, clonando rispettivamente
+ * il primo e l'ultimo valore. Questo per non avere degli zeri prima e dopo,
+ * che influiscono sul valore nel grafico. */
+for ($i = -$mollosita; $i < sizeof($dati_prod_giornaliera) + $mollosita; $i++) {
+	if ($i < 0)
+		$indice = 0; // Il primo valore
+	else if ($i >= sizeof($dati_prod_giornaliera))
+		$indice = sizeof($dati_prod_giornaliera) - 1; // l'ultimo
+	else
+		$indice = $i; // Quello giusto, il corrente.
+	$ampiezza = $dati_prod_giornaliera[$indice][1];
 	$ampiezza /= $mollosita;
+
+	$traslazione = $dati_prod_giornaliera[$indice][0];
 	// Divido altrimenti va in overflow e non gli piacciono key grandi
-	$traslazione = $dati_prod_giornaliera[$i][0]/(60*60*1000);
+	$traslazione /= (60*60*1000);
+	// Se sto utilizzando valori fittizi a sx e sd del grafico, li dovro'
+	// traslare opportunamente, ognuno di un giorno.
+	$traslazione += ($i - $indice) * 24;
+	
+	// Genero il sinc.
 	for ($t = $traslazione - $delta; $t <= $traslazione + $delta; $t += $step) {
 		if ($t == $traslazione)
 			$sinc = $ampiezza;
 		else
-			$sinc = $ampiezza * sin($PI * ($t-$traslazione) / $scalatura) / ($PI * ($t-$traslazione) / $scalatura);
+			$sinc = $ampiezza * sin(pi() * ($t-$traslazione) / $scalatura) / (pi() * ($t-$traslazione) / $scalatura);
 		$arr_media[$t] += $sinc;
 	}
 }
@@ -181,10 +196,8 @@ $(function () {
 	/********************************
 	          GRAFICO MESI
 	*********************************/
-	// TODO: capire come si mettono dei valori custom sull'asse delle X
 	$.plot($("#grafico_mesi"), [
-		{label: 'Produzione Inverter mensile', data: d2}/*,
-		{label: 'Prelievo F3', data: d5, points: { show: false }}*/
+		{label: 'Produzione Inverter mensile', data: d2}
 	], {
 		series: {
 			lines: { show: false, steps: false },
@@ -201,12 +214,8 @@ $(function () {
 			},
 			mode: "time",
 			minTickSize: [1, "month"]
-//			monthNames: mesiIta
-			/*,
-			min: (new Date("1990/01/01")).getTime(),
-			max: (new Date("2000/01/01")).getTime()*/
 		},
-		colors: ["#79f", "#aaa"]
+		colors: ["#79f"]
 	});
 
 	// Roba per l'hover
