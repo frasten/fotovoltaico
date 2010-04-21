@@ -68,7 +68,6 @@ $mollosita = 5; // N.B: intero
 $scalatura = 24 * $mollosita; // 1 giorno
 $step = 1; // In ore, e' la definizione.
 $delta = 6 * $scalatura; // E' il semisupporto del sinc, piu' e' grande piu' sara' accurato.
-$PI = 3.1415;
 $arr_media = array();
 /* Aggiungo tot campioni a sinistra e a destra, clonando rispettivamente
  * il primo e l'ultimo valore. Questo per non avere degli zeri prima e dopo,
@@ -95,7 +94,7 @@ for ($i = -$mollosita; $i < sizeof($dati_prod_giornaliera) + $mollosita; $i++) {
 		if ($t == $traslazione)
 			$sinc = $ampiezza;
 		else
-			$sinc = $ampiezza * sin($PI * ($t-$traslazione) / $scalatura) / ($PI * ($t-$traslazione) / $scalatura);
+			$sinc = $ampiezza * sin(pi() * ($t-$traslazione) / $scalatura) / (pi() * ($t-$traslazione) / $scalatura);
 		$arr_media[$t] += $sinc;
 	}
 }
