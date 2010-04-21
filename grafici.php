@@ -64,17 +64,33 @@ foreach ($tot_mesi as $anno => $arr_mesi) {
 
 
 ////// ANDAMENTO MEDIO
-$mollosita = 5;
+$mollosita = 5; // N.B: intero
 $scalatura = 24 * $mollosita; // 1 giorno
-$step = 1;
-$delta = 6*$scalatura; // limite sopra e sotto la traslazione
+$step = 1; // In ore, e' la definizione.
+$delta = 6 * $scalatura; // E' il semisupporto del sinc, piu' e' grande piu' sara' accurato.
 $PI = 3.1415;
 $arr_media = array();
-for ($i = 0; $i < sizeof($dati_prod_giornaliera); $i++) {
-	$ampiezza = $dati_prod_giornaliera[$i][1];
+/* Aggiungo tot campioni a sinistra e a destra, clonando rispettivamente
+ * il primo e l'ultimo valore. Questo per non avere degli zeri prima e dopo,
+ * che influiscono sul valore nel grafico. */
+for ($i = -$mollosita; $i < sizeof($dati_prod_giornaliera) + $mollosita; $i++) {
+	if ($i < 0)
+		$indice = 0; // Il primo valore
+	else if ($i >= sizeof($dati_prod_giornaliera))
+		$indice = sizeof($dati_prod_giornaliera) - 1; // l'ultimo
+	else
+		$indice = $i; // Quello giusto, il corrente.
+	$ampiezza = $dati_prod_giornaliera[$indice][1];
 	$ampiezza /= $mollosita;
+
+	$traslazione = $dati_prod_giornaliera[$indice][0];
 	// Divido altrimenti va in overflow e non gli piacciono key grandi
-	$traslazione = $dati_prod_giornaliera[$i][0]/(60*60*1000);
+	$traslazione /= (60*60*1000);
+	// Se sto utilizzando valori fittizi a sx e sd del grafico, li dovro'
+	// traslare opportunamente, ognuno di un giorno.
+	$traslazione += ($i - $indice) * 24;
+	
+	// Genero il sinc.
 	for ($t = $traslazione - $delta; $t <= $traslazione + $delta; $t += $step) {
 		if ($t == $traslazione)
 			$sinc = $ampiezza;
