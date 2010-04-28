@@ -9,7 +9,7 @@ require_once('inc/header.inc.php');
 
 $query = "SELECT * FROM " . TBL_DATI . " ORDER BY data ASC";
 $result = $db->executeQuery($query);
-$dati_prod_inverter = array();
+$dati_prod = array();
 $dati_prod_giornaliera = array();
 
 if (function_exists('date_default_timezone_set'))
@@ -39,18 +39,18 @@ while ($result->next()) {
 			$ultimo_mese_scorso = $ultima_lettura;
 		$mese_prec = $amg[1];
 	}
-	$ultima_lettura = $riga[prod_inverter];
+	$ultima_lettura = $riga[produzione];
 	$tot_mesi[$amg[0]][$amg[1]] = $ultima_lettura - $ultimo_mese_scorso;
 
 	$delta_giorni = (int) ($time_giorno - $giorno_prec) / (int) (3600 * 24);
 	if ($giorno_prec == 0) $delta_giorni = 1;
 	$timestamp = $time_giorno * 1000;
-	$prod_oggi = $riga[prod_inverter] - $prod_prec;
+	$prod_oggi = $riga[produzione] - $prod_prec;
 	$prod_oggi /= $delta_giorni;
 
-	$dati_prod_inverter[] = array($timestamp, $riga[prod_inverter]);
+	$dati_prod[] = array($timestamp, $riga[produzione]);
 	$dati_prod_giornaliera[] = array($timestamp, $prod_oggi);
-	$prod_prec = $riga[prod_inverter];
+	$prod_prec = $riga[produzione];
 	$giorno_prec = $time_giorno;
 }
 
@@ -167,7 +167,7 @@ $(function () {
 
 	$.plot($("#placeholder"), [
 		{label: 'Andamento medio', data: media1, points: { show: false }, hoverable: false},
-		{label: 'Produzione Inverter giornaliera', data: d1}
+		{label: 'Produzione giornaliera', data: d1}
 	], {
 		series: {
 			lines: {show: true/*, fill: true*/},
@@ -197,7 +197,7 @@ $(function () {
 	          GRAFICO MESI
 	*********************************/
 	$.plot($("#grafico_mesi"), [
-		{label: 'Produzione Inverter mensile', data: d2}
+		{label: 'Produzione mensile', data: d2}
 	], {
 		series: {
 			lines: { show: false, steps: false },
