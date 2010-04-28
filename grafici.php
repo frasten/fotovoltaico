@@ -149,7 +149,7 @@ funzioneMouseOver = function (event, pos, item) {
 			var d = getData(theDateObj);
 			showTooltip(item.pageX, item.pageY,
 				nomeGrafico + "<br />"+
-				d +": <strong>" + y + " kW</strong>"
+				d +": <strong>" + y + " kWh</strong>"
 			);
 		}
 	}
