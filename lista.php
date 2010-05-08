@@ -53,5 +53,23 @@ jQuery("#lista").jqGrid({
 </script>
 <?php
 
+$query = "SELECT consumati, prelievo_f1 as f1, prelievo_f2 as f2, prelievo_f3 as f3 FROM " . TBL_DATI;
+$result = $db->executeQuery($query);
+
+$tot = 0;
+$max['f1'] = 0;
+$max['f2'] = 0;
+$max['f3'] = 0;
+while ($result->next()) {
+	$riga = $result->getCurrentValuesAsHash();
+	$tot += $riga['consumati'];
+	$max['f1'] = max($max['f1'], $riga['f1']);
+	$max['f2'] = max($max['f2'], $riga['f2']);
+	$max['f3'] = max($max['f3'], $riga['f3']);
+}
+$tot2 = $tot + $max['f1'] + $max['f2'] + $max['f3'];
+echo "Totale consumati: $tot kWh<br />";
+echo "Totale consumati+F1+F2+F3: $tot2 kWh";
+
 require_once('inc/footer.inc.php');
 ?>
