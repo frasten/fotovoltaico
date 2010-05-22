@@ -173,6 +173,9 @@ $(function () {
 			lines: {show: true/*, fill: true*/},
 			points: {show: true}
 		},
+		legend: {
+			position: "nw"
+		},
 		grid: {
             backgroundColor: { colors: ["#ddf", "#fff"] },
             hoverable: true
