@@ -20,13 +20,13 @@ jQuery("#lista").jqGrid({
 	url:'ajax_lista.php',
 	height: "100%",
 	datatype: "json",
-	colNames:['Data','Prod Inverter', 'Produzione', 'Ceduti','Consumati','F1','F2','F3','Tempo'],
+	colNames:['Data','Prod Inverter', 'Produzione', 'Ceduti','Autoconsumati','F1','F2','F3','Tempo'],
 	colModel:[
 		{name:'data',index:'data', width:90, editable: true, editoptions:{size:8}},
 		{name:'prod_inverter',index:'prod_inverter', width:100, align:"right", editable: true, editoptions:{size:4}},
 		{name:'produzione',index:'produzione', width:80, align:"right", editable: true, editoptions:{size:4}},
 		{name:'ceduti',index:'ceduti', width:80, align:"right", editable: true, editoptions:{size:4}},
-		{name:'consumati',index:'consumati', width:80, align:"right", editable: true, editoptions:{size:4}},
+		{name:'consumati',index:'consumati', width:90, align:"right", editable: true, editoptions:{size:4}},
 		{name:'prelievo_f1',index:'prelievo_f1', width:80,align:"right", editable: true, editoptions:{size:4}},
 		{name:'prelievo_f2',index:'prelievo_f2', width:80,align:"right", editable: true, editoptions:{size:4}},
 		{name:'prelievo_f3',index:'prelievo_f3', width:80,align:"right", editable: true, editoptions:{size:4}},
@@ -68,8 +68,8 @@ while ($result->next()) {
 	$max['f3'] = max($max['f3'], $riga['f3']);
 }
 $tot2 = $tot + $max['f1'] + $max['f2'] + $max['f3'];
-echo "Totale consumati: $tot kWh<br />";
-echo "Totale consumati+F1+F2+F3: $tot2 kWh";
+echo "Totale autoconsumati: $tot kWh<br />";
+echo "Totale autoconsumati+F1+F2+F3: $tot2 kWh";
 
 require_once('inc/footer.inc.php');
 ?>

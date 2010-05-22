@@ -48,7 +48,7 @@ $(function() {
 			<input type='text' id='ceduti' name='ceduti' value='' />
 		</li>
 		<li>
-			<label for="consumati">Consumati:</label>
+			<label for="consumati">Autoconsumati:</label>
 			<input type='text' id='consumati' name='consumati' value='' />
 		</li>
 	</ol>
