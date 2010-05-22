@@ -68,6 +68,7 @@ while ($result->next()) {
 	$max['f3'] = max($max['f3'], $riga['f3']);
 }
 $tot2 = $tot + $max['f1'] + $max['f2'] + $max['f3'];
+echo "<br /><br />";
 echo "Totale autoconsumati: $tot kWh<br />";
 echo "Totale autoconsumati+F1+F2+F3: $tot2 kWh";
 
