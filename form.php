@@ -56,27 +56,27 @@ $(function() {
 		<h4>Tempo:</h4>
 		<ol>
 			<li>
-				<label for="meteoSereno"><img src="img/meteo/sereno.png" alt="Sereno" /></label>
+				<label for="meteoSereno"><img src="img/meteo/sereno.png" alt="Sereno" title="Sereno" /></label>
 				<input type="radio" id="meteoSereno" name="tempo" value="S" />
 			</li>
 			<li>
-				<label for="meteoVariabile"><img src="img/meteo/variabile.png" alt="Variabile" /></label>
+				<label for="meteoVariabile"><img src="img/meteo/variabile.png" alt="Variabile" title="Variabile"/></label>
 				<input type="radio" id="meteoVariabile" name="tempo" value="NS" />
 			</li>
 			<li>
-				<label for="meteoNuvoloso"><img src="img/meteo/nuvoloso.png" alt="Nuvoloso" /></label>
+				<label for="meteoNuvoloso"><img src="img/meteo/nuvoloso.png" alt="Nuvoloso" title="Nuvoloso"/></label>
 				<input type="radio" id="meteoNuvoloso" name="tempo" value="N" />
 			</li>
 			<li>
-				<label for="meteoPioggia"><img src="img/meteo/pioggia.png" alt="Pioggia" /></label>
+				<label for="meteoPioggia"><img src="img/meteo/pioggia.png" alt="Pioggia" title="Pioggia"/></label>
 				<input type="radio" id="meteoPioggia" name="tempo" value="P" />
 			</li>
 			<li>
-				<label for="meteoTemporale"><img src="img/meteo/temporale.png" alt="Temporale" /></label>
+				<label for="meteoTemporale"><img src="img/meteo/temporale.png" alt="Temporale" title="Temporale"/></label>
 				<input type="radio" id="meteoTemporale" name="tempo" value="T" />
 			</li>
 			<li>
-				<label for="meteoNeve"><img src="img/meteo/neve.png" alt="Neve" /></label>
+				<label for="meteoNeve"><img src="img/meteo/neve.png" alt="Neve" title="Neve"/></label>
 				<input type="radio" id="meteoNeve" name="tempo" value="V" />
 			</li>
 		</ol>
