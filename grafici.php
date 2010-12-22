@@ -65,7 +65,7 @@ foreach ($tot_mesi as $anno => $arr_mesi) {
 
 
 ////// ANDAMENTO MEDIO
-$mollosita = 5; // N.B: intero
+$mollosita = 10; // N.B: intero
 $scalatura = 24 * $mollosita; // 1 giorno
 $step = 1; // In ore, e' la definizione.
 $delta = 6 * $scalatura; // E' il semisupporto del sinc, piu' e' grande piu' sara' accurato.
