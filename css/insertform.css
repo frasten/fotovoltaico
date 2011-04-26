@@ -147,3 +147,12 @@ td {
 thead td {
 	font-weight: bold;
 }
+
+.divMeseAnno label {
+	float: none;
+	width: auto;
+}
+
+.divMeseAnno {
+	margin: 1em 0;
+}

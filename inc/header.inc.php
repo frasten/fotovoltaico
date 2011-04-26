@@ -37,4 +37,5 @@ if (!$TITOLO) $TITOLO = "Fotovoltaico";
 		<li><a href='lista.php'>Lista</a></li>
 		<li><a href='form.php'>Inserimento</a></li>
 		<li><a href='grafici.php'>Grafici</a></li>
+		<li><a href='form_mese.php'>Inserimento Mensile</a></li>
 	</ul>

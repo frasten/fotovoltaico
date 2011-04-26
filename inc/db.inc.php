@@ -4,6 +4,7 @@ define('DB_DIR', realpath(dirname(__FILE__)) . '/../db/'); // Path relativo a qu
 define('DB_PROGETTO','fotovoltaico');
 
 define('TBL_DATI','dati');
+define('TBL_DATI_MENSILI','dati_mese');
 
 if (!is_dir(DB_DIR)) {
 	echo "Directory dei DB inesistente, la creo.\n";
@@ -62,6 +63,44 @@ tempo str
 		// Errore nella creazione della tabella
 		echo "Errore nella creazione della tabella.\n";
 		echo 'Tabella: ' . TBL_DATI . "\n";
+		echo "Query: $query\n";
+		echo "Oggetto db:\n";
+		print_r($db);
+		return false;
+	}
+}
+
+
+
+
+// Controllo se la tabella esiste
+$query = "LIST TABLES WHERE table = '" . TBL_DATI_MENSILI . "'";
+$result = $db->executeQuery($query);
+if (!$result) {
+	echo "Errore interno.\n";
+	return;
+}
+
+// Tabella inesistente
+if (!$result->getRowCount()) {
+	// Creo anche le tabelle
+	$query = "CREATE TABLE ".TBL_DATI_MENSILI." (
+id inc,
+anno int,
+mese int,
+prod_inverter int,
+produzione int,
+ceduti int,
+consumati int,
+prelievo_f1 int,
+prelievo_f2 int,
+prelievo_f3 int
+)";
+	$ok = $db->executeQuery($query);
+	if (!$ok) {
+		// Errore nella creazione della tabella
+		echo "Errore nella creazione della tabella.\n";
+		echo 'Tabella: ' . TBL_DATI_MENSILI . "\n";
 		echo "Query: $query\n";
 		echo "Oggetto db:\n";
 		print_r($db);
