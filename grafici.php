@@ -3,7 +3,9 @@
 $JS[] = 'js/jquery.js';
 $JS[] = 'js/flot/jquery.flot.min.js';
 $JS[] = 'js/flot/jquery.flot.multi.js';
+$JS[] = 'js/jquery.flot.tooltip.js';
 $HEADER[] = '<!--[if IE]><script language="javascript" type="text/javascript" src="js/flot/excanvas.min.js"></script><![endif]-->';
+
 
 require_once('inc/header.inc.php');
 
@@ -161,39 +163,16 @@ function getData(date) {
 	return date.getDate() + " " + mesiIta[date.getMonth()] + ", " + date.getFullYear();
 }
 
-// ** hover tooltip **
-function showTooltip(x, y, contents) {
-	$('<div id="tooltip">' + contents + '</div>').css({
-		top: y + 5,
-		left: x + 5
-	}).appendTo("body").fadeIn(150);
-}
 
-funzioneMouseOver = function (event, pos, item) {
-	// ** over an item? **
-	if (item) {
-		if (!this.previousPoint ||
-		this.previousPoint[0] != item.datapoint[0] ||
-		this.previousPoint[1] != item.datapoint[1]) {
-			this.previousPoint = item.datapoint;
-			// hover tooltip
-			$("#tooltip").remove();
-			var x = item.datapoint[0].toFixed(2),
-				y = item.datapoint[1].toFixed(0);
-			var nomeGrafico = item.series.label;
-			var theDateObj = new Date(parseFloat(x));
-			var d = getData(theDateObj);
-			showTooltip(item.pageX, item.pageY,
-				nomeGrafico + "<br />"+
-				d +": <strong>" + y + " kWh</strong>"
-			);
-		}
-	}
-	else {
-		$("#tooltip").remove();
-		this.previousPoint = null;
-	}
-};
+function datiTooltipGiorno(item) {
+	var x = item.datapoint[0].toFixed(2),
+		y = item.datapoint[1].toFixed(0);
+	var nomeGrafico = item.series.label;
+	var theDateObj = new Date(parseFloat(x));
+	var d = getData(theDateObj);
+	return nomeGrafico + "<br />"+
+		d +": <strong>" + y + " kWh</strong>";
+}
 
 
 $(function () {
@@ -226,11 +205,13 @@ $(function () {
 		yaxis: {
 			min: 0
 		},
+		tooltips: {
+			show: true,
+			displayFunc: datiTooltipGiorno
+		},
 		colors: ["#A1C4FF", "#EDA840", "#ff009c", "#4da74d", "#aaa"]
 	});
 
-	// Roba per l'hover
-	$("#placeholder").bind("plothover", funzioneMouseOver);
 
 	/********************************
 	          GRAFICO MESI
@@ -254,11 +235,13 @@ $(function () {
 			mode: "time",
 			minTickSize: [1, "month"]
 		},
+		tooltips: {
+			show: true,
+			displayFunc: datiTooltipGiorno
+		},
 		colors: ["#79f"]
 	});
 
-	// Roba per l'hover
-	$("#grafico_mesi").bind("plothover", funzioneMouseOver);
 
 
 	/********************************
@@ -290,12 +273,19 @@ $(function () {
 			minTickSize: [1, "month"]
 			*/
 		},
-		colors: ["#79f"],
+		tooltips: {
+			show: true,
+			displayFunc: function(item) {
+				return mesiIta[item.datapoint[0]-1] + " " +
+					item.series.label + ":<br /> " +
+					"<strong>" + item.datapoint[1] + "kWh</strong>";
+			}
+		},
+		colors: ["#A1C4FF", "#EDA840", "#ff009c", "#4da74d", "#aaa"],
+		//colors: ["#79f"],
 		multiplebars: true
 	});
 
-	// Roba per l'hover
-	$("#grafico_mesi_new").bind("plothover", funzioneMouseOver);
 });
 </script>
 
