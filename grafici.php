@@ -6,8 +6,10 @@ $HEADER[] = '<!--[if IE]><script language="javascript" type="text/javascript" sr
 
 require_once('inc/header.inc.php');
 
+define('RICALCOLA_ANDAMENTO_MEDIO', false);
 
-$query = "SELECT * FROM " . TBL_DATI . " ORDER BY data ASC";
+
+$query = "SELECT data,produzione FROM " . TBL_DATI . " ORDER BY data ASC";
 $result = $db->executeQuery($query);
 $dati_prod = array();
 $dati_prod_giornaliera = array();
@@ -55,6 +57,7 @@ while ($result->next()) {
 }
 
 
+/////// ANDAMENTO MENSILE
 $dati_mesi = array();
 foreach ($tot_mesi as $anno => $arr_mesi) {
 	foreach ($arr_mesi as $mese => $val) {
@@ -63,7 +66,29 @@ foreach ($tot_mesi as $anno => $arr_mesi) {
 	}
 }
 
+// ANDAMENTO MENSILE BIS
 
+// Questo si basa invece sui dati mensili, da marzo 2011 in poi.
+$dati_mesi_new = array();
+$query = "SELECT anno,mese,produzione FROM " . TBL_DATI_MENSILI . " ORDER BY anno, mese ASC";
+$result = $db->executeQuery($query);
+$precedente = -1;
+while ($result->next()) {
+	$riga = $result->getCurrentValuesAsHash();
+	$timestamp = mktime(0, 0, 0, $riga[mese], 1, $riga[anno]) * 1000;
+
+	$produzione = $riga[produzione];
+
+	if ($precedente >= 0) {
+		// non sono al primo mese
+		$produzione -= $precedente;
+	}
+	$dati_mesi_new[] = array($timestamp, $produzione);
+	$precedente = $riga[produzione];
+}
+
+
+if (RICALCOLA_ANDAMENTO_MEDIO):
 ////// ANDAMENTO MEDIO
 $mollosita = 10; // N.B: intero
 $scalatura = 24 * $mollosita; // 1 giorno
@@ -105,6 +130,12 @@ foreach ($arr_media as $k => $v) {
 	$media[] = array($k*1000*60*60, $v);
 }
 
+// La salvo in cache
+file_put_contents('andamento_medio.dat', json_encode($media));
+
+else:
+$media = json_decode(file_get_contents('andamento_medio.dat'));
+endif;
 
 
 /* moltiplico un sinc traslato , ampiezza = valore
@@ -118,6 +149,7 @@ foreach ($arr_media as $k => $v) {
 ?>
 <div id="placeholder" class="grafico"></div>
 <div id="grafico_mesi" class="grafico"></div>
+<div id="grafico_mesi_new" class="grafico"></div>
 <script type="text/javascript">
 mesiIta = ["Gen", "Feb", "Mar", "Apr", "Mag", "Giu", "Lug", "Ago", "Set", "Ott", "Nov", "Dic"];
 
@@ -163,6 +195,7 @@ funzioneMouseOver = function (event, pos, item) {
 $(function () {
 	var d1 = <?php echo json_encode($dati_prod_giornaliera); ?>;
 	var d2 = <?php echo json_encode($dati_mesi); ?>;
+	var d3 = <?php echo json_encode($dati_mesi_new); ?>;
 	var media1 = <?php echo json_encode($media); ?>;
 
 	$.plot($("#placeholder"), [
@@ -223,6 +256,35 @@ $(function () {
 
 	// Roba per l'hover
 	$("#grafico_mesi").bind("plothover", funzioneMouseOver);
+
+
+	/********************************
+	          GRAFICO MESI NEW
+	*********************************/
+	$.plot($("#grafico_mesi_new"), [
+		{label: 'Produzione mensile', data: d3}
+	], {
+		series: {
+			lines: { show: false, steps: false },
+			bars: { show: true, barWidth: 15 * 24 * 60 * 60 * 1000, align: "center" }
+		},
+		grid: {
+            backgroundColor: { colors: ["#ddf", "#fff"] },
+            hoverable: true
+        },
+        xaxis: {
+			tickFormatter: function (val, axis) {
+				var d = new Date(val);
+				return mesiIta[d.getUTCMonth()] + " "  + d.getFullYear();
+			},
+			mode: "time",
+			minTickSize: [1, "month"]
+		},
+		colors: ["#79f"]
+	});
+
+	// Roba per l'hover
+	$("#grafico_mesi_new").bind("plothover", funzioneMouseOver);
 });
 </script>
 
