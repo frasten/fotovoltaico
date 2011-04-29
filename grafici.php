@@ -2,6 +2,7 @@
 
 $JS[] = 'js/jquery.js';
 $JS[] = 'js/flot/jquery.flot.min.js';
+$JS[] = 'js/flot/jquery.flot.multi.js';
 $HEADER[] = '<!--[if IE]><script language="javascript" type="text/javascript" src="js/flot/excanvas.min.js"></script><![endif]-->';
 
 require_once('inc/header.inc.php');
@@ -25,7 +26,7 @@ $tot_mesi = array();
 $ultimo_mese_scorso = 0;
 while ($result->next()) {
 	$riga = $result->getCurrentValuesAsHash();
-	$amg = explode('-', $riga[data]);
+	$amg = explode('-', $riga['data']);
 	$time_giorno = mktime(0, 0, 0, $amg[1], $amg[2], $amg[0]);
 	
 	// mese: tot_mesi[ANNO][mese]
@@ -41,18 +42,18 @@ while ($result->next()) {
 			$ultimo_mese_scorso = $ultima_lettura;
 		$mese_prec = $amg[1];
 	}
-	$ultima_lettura = $riga[produzione];
+	$ultima_lettura = $riga['produzione'];
 	$tot_mesi[$amg[0]][$amg[1]] = $ultima_lettura - $ultimo_mese_scorso;
 
 	$delta_giorni = (int) ($time_giorno - $giorno_prec) / (int) (3600 * 24);
 	if ($giorno_prec == 0) $delta_giorni = 1;
 	$timestamp = $time_giorno * 1000;
-	$prod_oggi = $riga[produzione] - $prod_prec;
+	$prod_oggi = $riga['produzione'] - $prod_prec;
 	$prod_oggi /= $delta_giorni;
 
-	$dati_prod[] = array($timestamp, $riga[produzione]);
+	$dati_prod[] = array($timestamp, $riga['produzione']);
 	$dati_prod_giornaliera[] = array($timestamp, $prod_oggi);
-	$prod_prec = $riga[produzione];
+	$prod_prec = $riga['produzione'];
 	$giorno_prec = $time_giorno;
 }
 
@@ -75,16 +76,19 @@ $result = $db->executeQuery($query);
 $precedente = -1;
 while ($result->next()) {
 	$riga = $result->getCurrentValuesAsHash();
-	$timestamp = mktime(0, 0, 0, $riga[mese], 1, $riga[anno]) * 1000;
+	$timestamp = mktime(0, 0, 0, $riga['mese'], 1, $riga['anno']) * 1000;
 
-	$produzione = $riga[produzione];
+	$produzione = $riga['produzione'];
 
 	if ($precedente >= 0) {
 		// non sono al primo mese
 		$produzione -= $precedente;
 	}
-	$dati_mesi_new[] = array($timestamp, $produzione);
-	$precedente = $riga[produzione];
+	if (empty($dati_mesi_new[$riga['anno']]))
+		$dati_mesi_new[$riga['anno']] = array();
+
+	$dati_mesi_new[$riga['anno']][] = array(intval($riga['mese']), $produzione);
+	$precedente = $riga['produzione'];
 }
 
 
@@ -195,7 +199,6 @@ funzioneMouseOver = function (event, pos, item) {
 $(function () {
 	var d1 = <?php echo json_encode($dati_prod_giornaliera); ?>;
 	var d2 = <?php echo json_encode($dati_mesi); ?>;
-	var d3 = <?php echo json_encode($dati_mesi_new); ?>;
 	var media1 = <?php echo json_encode($media); ?>;
 
 	$.plot($("#placeholder"), [
@@ -262,11 +265,17 @@ $(function () {
 	          GRAFICO MESI NEW
 	*********************************/
 	$.plot($("#grafico_mesi_new"), [
-		{label: 'Produzione mensile', data: d3}
+<?php
+		$dastampare = array();
+		foreach ($dati_mesi_new as $anno=>$dati) {
+			$dastampare[] = "\t\t{label: '$anno', data: " . json_encode($dati) . "}\n";
+		}
+		echo implode(',', $dastampare);
+?>
 	], {
 		series: {
 			lines: { show: false, steps: false },
-			bars: { show: true, barWidth: 15 * 24 * 60 * 60 * 1000, align: "center" }
+			bars: { show: true, barWidth: 0.3, align: "center" }
 		},
 		grid: {
             backgroundColor: { colors: ["#ddf", "#fff"] },
@@ -276,11 +285,13 @@ $(function () {
 			tickFormatter: function (val, axis) {
 				var d = new Date(val);
 				return mesiIta[d.getUTCMonth()] + " "  + d.getFullYear();
-			},
+			}/*,
 			mode: "time",
 			minTickSize: [1, "month"]
+			*/
 		},
-		colors: ["#79f"]
+		colors: ["#79f"],
+		multiplebars: true
 	});
 
 	// Roba per l'hover
