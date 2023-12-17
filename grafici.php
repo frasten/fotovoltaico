@@ -258,20 +258,20 @@ $(function () {
 	], {
 		series: {
 			lines: { show: false, steps: false },
-			bars: { show: true, barWidth: 0.3, align: "center" }
+			bars: { show: true, barWidth: <?php echo 0.75 / sizeof($dati_mesi_new) ?>, align: "center" }
 		},
 		grid: {
             backgroundColor: { colors: ["#ddf", "#fff"] },
             hoverable: true
         },
         xaxis: {
-			tickFormatter: function (val, axis) {
-				var d = new Date(val);
-				return mesiIta[d.getUTCMonth()] + " "  + d.getFullYear();
-			}/*,
-			mode: "time",
-			minTickSize: [1, "month"]
-			*/
+			ticks: function(axis) {
+				var valori = [];
+				for (var i = axis.min; i <= axis.max; i++) {
+					valori.push([i, mesiIta[i-1]]);
+				}
+				return valori;
+			}
 		},
 		tooltips: {
 			show: true,
@@ -281,7 +281,8 @@ $(function () {
 					"<strong>" + item.datapoint[1] + "kWh</strong>";
 			}
 		},
-		colors: ["#A1C4FF", "#EDA840", "#ff009c", "#4da74d", "#aaa"],
+		//colors: ["#A1C4FF", "#EDA840", "#ff009c", "#4da74d", "#E82C0C"],
+		colors: ["#f00", "#ff7f00", "#ff0", "#0f0", "#00f", "#4b0082", "#8f00ff"],
 		//colors: ["#79f"],
 		multiplebars: true
 	});

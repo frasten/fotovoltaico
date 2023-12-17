@@ -29,7 +29,7 @@ $(function() {
 <form action='salvaform.php' method='post'>
 <div class="divData">
 	<label for="data">Data:</label>
-	<input type='text' id='data' name='data' size="7" value='<?php echo date("d/m/Y"); ?>' />
+	<input type='text' id='data' name='data' size="10" value='<?php echo date("d/m/Y"); ?>' />
 </div>
 
 <fieldset>
