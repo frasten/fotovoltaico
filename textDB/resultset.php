@@ -396,7 +396,7 @@ class ResultSet {
 	
 	// 24-02-2007 Added Offset for ADD COLUMN (FIRST/AFTER) in ALTER TABLE
 	// Adds a new Column after a given Offset to the ResultSet 
-	function addColumn($colName, $colAlias, $colTable, $colTableAlias, $colType, $colDefaultValue, $colFunc, $colDefaultValue, $setValues=true, $colOffset=false) {
+	function addColumn($colName, $colAlias, $colTable, $colTableAlias, $colType, $colDefaultValue, $colFunc, $colDefaultValue2, $setValues=true, $colOffset=false) {
 		
 		if (!$colOffset)
 		{
@@ -431,7 +431,7 @@ class ResultSet {
 			$rowCount=count($this->rows);
 			for($i=0;$i<$rowCount;++$i)
 			{
-				array_splice($this->rows[$i]->fields, $colOffset, 0, $colDefaultValue);
+				array_splice($this->rows[$i]->fields, $colOffset, 0, $colDefaultValue2);
 			}
 		}
 		else {

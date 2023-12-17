@@ -11,7 +11,7 @@
  * == Default Options ==
  * tooltips: {
  *   show: false,
- *   displayfunc: function(item) {return item.datapoint[1]},
+ *   displayFunc: function(item) {return item.datapoint[1]},
  *   fadeInTime: 150,
  *   id: "tooltip"
  * }
@@ -32,7 +32,7 @@ $.plot($("#placeholder"),
   {
     tooltip: {
       show: true,
-      displayfunc: function(item) {return "Value: " + item.datapoint[1]}
+      displayFunc: function(item) {return "Value: " + item.datapoint[1]}
     }
   }
 );
@@ -69,6 +69,7 @@ $.plot($("#placeholder"),
 				if (!previousPoint ||
 				previousPoint[0] != item.datapoint[0] ||
 				previousPoint[1] != item.datapoint[1]) {
+					//console.log("MOSTRO")
 					previousPoint = item.datapoint;
 					// hover tooltip
 					$("#" + opt.id).remove();
@@ -76,6 +77,7 @@ $.plot($("#placeholder"),
 				}
 			}
 			else {
+				//console.log("NON HO ITEM")
 				$("#" + opt.id).remove();
 				previousPoint = null;
 			}
