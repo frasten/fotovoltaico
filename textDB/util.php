@@ -93,7 +93,7 @@ function last_char($string) {
 	if($len < 1) {
 		return '';
 	}
-	return $string{strlen($string)-1};
+	return $string[strlen($string)-1];
 }
 
 function remove_last_char(&$string) {

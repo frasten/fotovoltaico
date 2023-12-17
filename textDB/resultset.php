@@ -2125,12 +2125,12 @@ class ResultSetParser {
         
 		$pos=strlen($str)-1;
         
-		while($str{$pos}=="\n" || $str{$pos}=="\r" || $str{$pos}=="\t" || $str{$pos}==" ")
+		while($str[$pos]=="\n" || $str[$pos]=="\r" || $str[$pos]=="\t" || $str[$pos]==" ")
 		{
 			--$pos; if($pos==-1) return false;
 		}
 
-		while($str{$pos}!="\n" && $str{$pos}!="\r")
+		while($str[$pos]!="\n" && $str[$pos]!="\r")
 		{
 			--$pos; if($pos==-1) return false;
 		}

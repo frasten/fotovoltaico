@@ -176,7 +176,7 @@ class StringParser {
 	   
 		if(!(++$this->currentPos<strlen($this->workingStr))) return false;
 	        
-		$this->currentChar=$this->workingStr{$this->currentPos};
+		$this->currentChar=$this->workingStr[$this->currentPos];
 		$c=$this->currentChar;
 		verbose_debug_print("<hr>");
 		verbose_debug_print("StringParser:: current char: '" . $c . "' <br>");
