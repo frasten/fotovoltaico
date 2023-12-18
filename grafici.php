@@ -12,8 +12,13 @@ require_once('inc/header.inc.php');
 define('RICALCOLA_ANDAMENTO_MEDIO', false);
 
 
-$query = "SELECT data,produzione FROM " . TBL_DATI . " ORDER BY data ASC";
-$result = $db->executeQuery($query);
+$query = "SELECT data, produzione FROM " . TBL_DATI . " ORDER BY data ASC";
+try {
+    $result = $db->query($query);
+} catch (PDOException $e) {
+    die("Errore durante l'esecuzione della query SELECT: " . $e->getMessage());
+}
+
 $dati_prod = array();
 $dati_prod_giornaliera = array();
 
@@ -26,8 +31,7 @@ $giorno_prec = 0; // giorno precedente
 $mese_prec = 0;
 $tot_mesi = array();
 $ultimo_mese_scorso = 0;
-while ($result->next()) {
-	$riga = $result->getCurrentValuesAsHash();
+while ($riga = $result->fetch(PDO::FETCH_ASSOC)) {
 	$amg = explode('-', $riga['data']);
 	$time_giorno = mktime(0, 0, 0, $amg[1], $amg[2], $amg[0]);
 	
@@ -73,11 +77,14 @@ foreach ($tot_mesi as $anno => $arr_mesi) {
 
 // Questo si basa invece sui dati mensili, da marzo 2011 in poi.
 $dati_mesi_new = array();
-$query = "SELECT anno,mese,produzione FROM " . TBL_DATI_MENSILI . " ORDER BY anno, mese ASC";
-$result = $db->executeQuery($query);
+$query = "SELECT anno, mese, produzione FROM " . TBL_DATI_MENSILI . " ORDER BY anno, mese ASC";
+try {
+    $result = $db->query($query);
+} catch (PDOException $e) {
+    die("Errore durante l'esecuzione della query SELECT: " . $e->getMessage());
+}
 $precedente = -1;
-while ($result->next()) {
-	$riga = $result->getCurrentValuesAsHash();
+while ($riga = $result->fetch(PDO::FETCH_ASSOC)) {
 	$timestamp = mktime(0, 0, 0, $riga['mese'], 1, $riga['anno']) * 1000;
 
 	$produzione = $riga['produzione'];

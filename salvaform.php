@@ -33,11 +33,10 @@ $query = "INSERT INTO " . TBL_DATI .
 	"'{$_POST['prelievo_f3']}', '{$_POST['tempo']}'" .
 	")";
 
-$ok = $db->executeQuery($query);
-if (!$ok) {
-	echo "Errore nel salvataggio: ". txtdbapi_get_last_error();
-	echo " <a href='javascript:history.back()'>Torna</a>";
-	return;
+try {
+    $db->exec($query);
+} catch (PDOException $e) {
+    die("Errore nel salvataggio: " . $e->getMessage() . " <a href='javascript:history.back()'>Torna</a>");
 }
 
 require_once('inc/header.inc.php');

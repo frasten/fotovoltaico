@@ -27,8 +27,13 @@ $id = intval($_POST['id']);
 if (!$id) die("Non fregarmi.");
 
 $query = "SELECT id FROM ". TBL_DATI . " WHERE id='$id' LIMIT 1";
-$result = $db->executeQuery($query);
-if (!$result || !$result->getRowCount()) die("ID non valido.");
+try {
+    $result = $db->query($query);
+    if (!$result->rowCount())
+        throw new Exception("ID non valido.");
+} catch (PDOException $e) {
+    die("ID non valido.");
+}
 endif;
 
 
@@ -59,8 +64,11 @@ echo $query = "UPDATE " . TBL_DATI . " SET ".
 	"prelievo_f2='{$_POST[prelievo_f2]}', prelievo_f3='{$_POST[prelievo_f3]}', " .
 	"tempo='{$_POST[tempo]}' " .
 	" WHERE id='$id'";
-$ok = $db->executeQuery($query);
-if (!$ok) die("Errore nel salvataggio.");
+try {
+    $db->exec($query);
+} catch (PDOException $e) {
+    die("Errore nel salvataggio.");
+}
 
 // Tutto ok.
 echo 0;
@@ -69,8 +77,11 @@ elseif ($oper == 'del'):
 /****************** DELETE *********************/
 $query = "DELETE FROM " . TBL_DATI . " WHERE id = '$id'";
 
-$ok = $db->executeQuery($query);
-if (!$ok) die("Errore nel salvataggio.");
+try {
+    $db->exec($query);
+} catch (PDOException $e) {
+    die("Errore nel salvataggio.");
+}
 
 // Tutto ok.
 echo 0;
@@ -120,10 +131,14 @@ if ($campoCerca) {
 	$queryRicerca = "WHERE $campoCerca $op '$prestring$stringaCerca$poststring'";
 }
 
-$result = $db->executeQuery("SELECT COUNT(*) FROM " . TBL_DATI . " $queryRicerca");
-$result->next();
-$count = $result->getCurrentValueByNr(0);
-if( $count >0 ) {
+try {
+    $result = $db->query("SELECT COUNT(*) FROM " . TBL_DATI . " $queryRicerca");
+} catch (PDOException $e) {
+    die("Errore durante l'esecuzione della query SELECT: " . $e->getMessage());
+}
+$count = $result->fetchColumn();
+
+if( $count > 0 ) {
 	$total_pages = ceil($count/$limit);
 } else {
 	$total_pages = 0;
@@ -134,24 +149,27 @@ if ($page > $total_pages)
 // Limite: almeno 0
 $start = max($limit*$page - $limit, 0); // do not put $limit*($page - 1)
 $query = "SELECT * FROM " . TBL_DATI . " $queryRicerca ORDER BY $sidx $sord LIMIT $start , $limit";
-$result = $db->executeQuery( $query );
-if (!$result) die("Errore nella query.");
+try {
+    $result = $db->query( $query );
+} catch (PDOException $e) {
+    die("Errore durante l'esecuzione della query SELECT: " . $e->getMessage());
+}
 
-$responce->page = $page;
-$responce->total = $total_pages;
-$responce->records = $count;
+$response = new stdClass();
+$response->page = $page;
+$response->total = $total_pages;
+$response->records = $count;
 
 $i=0;
-while($result->next()) {
-	$row = $result->getCurrentValuesAsHash();
-	$responce->rows[$i]['id']=$row[id];
-	$amg = explode('-', $row[data]);
+while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
+	$response->rows[$i]['id']=$row['id'];
+	$amg = explode('-', $row['data']);
 	$data = "{$amg[2]}/{$amg[1]}/{$amg[0]}";
-	$responce->rows[$i]['cell']=array($data,$row[prod_inverter],$row[produzione],$row[ceduti],$row[consumati],$row[prelievo_f1],$row[prelievo_f2],$row[prelievo_f3],$row[tempo]);
+	$response->rows[$i]['cell']=array($data,$row['prod_inverter'],$row['produzione'],$row['ceduti'],$row['consumati'],$row['prelievo_f1'],$row['prelievo_f2'],$row['prelievo_f3'],$row['tempo']);
 	$i++;
 }
 
-echo json_encode($responce);
+echo json_encode($response);
 
 endif; // Fine scelta operazione da eseguire
 
