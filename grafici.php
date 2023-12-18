@@ -258,7 +258,7 @@ $(function () {
 	], {
 		series: {
 			lines: { show: false, steps: false },
-			bars: { show: true, barWidth: <?php echo 0.75 / sizeof($dati_mesi_new) ?>, align: "center" }
+			bars: { show: true, barWidth: <?php echo 0.75 / max(1, sizeof($dati_mesi_new)) ?>, align: "center" }
 		},
 		grid: {
             backgroundColor: { colors: ["#ddf", "#fff"] },
